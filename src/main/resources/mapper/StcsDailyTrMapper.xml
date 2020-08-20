@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="StcsDailyTrMapper">
+
+    <select id="getStcsDailyTr" resultType="com.example.demo.vo.StcsDailyTr">
+        SELECT *
+          FROM (
+                SELECT ROW_NUMBER() OVER(ORDER BY A.yyyymmdd) RNUM
+                     , A.*
+                  FROM stcs_daily_tr A
+                ORDER BY A.yyyymmdd ASC
+                ) A
+         WHERE A.RNUM BETWEEN 1 +(${_page} * ${_pagesize}) AND (${_page} + 1) * ${_pagesize}
+    </select>
+
+</mapper>
